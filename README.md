@@ -8,12 +8,13 @@ This project aims to conduct a multiclass classfication of rock images using mac
 2. Data preprocessing
  - Feature Normalization
 3. Build a TensorFlow model for the predictions
+
 4. Train Model
  - Distribution Strategy: Google Colab: GPU
  - Hyperparameter tuning
  - Analyze Overfitting
 5. Evaluate Model
  - Optimization 
-7. Deploy Model 
+6. Deploy Model 
  - Android
  
