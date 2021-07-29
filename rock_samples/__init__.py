@@ -1,21 +1,17 @@
 # Creating the dataset of specified directory
-import matplotlib.pyplot as plt
 import numpy as np
-import os
-import PIL
 import tensorflow as tf
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
-from tensorflow.python.keras.metrics import acc
-
 from utilities import _getClasses_
 from utilities import _plotImages_
 from utilities import _retrieveBatches_
 from utilities import _visualizeData_
 from utilities import _visualizeAugmentedData_
+
 # Data PARAMETERS
-BATCH_SIZE = 32
+BATCH_SIZE = 2
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 # Data directory
@@ -28,7 +24,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     subset="training",
     seed=123,
     image_size=(IMG_HEIGHT, IMG_WIDTH),
-    batch_size=BATCH_SIZE
+    batch_size=BATCH_SIZE,
 )
 # Validating 20% of the images
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
@@ -46,6 +42,7 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 # _retrieveBatches_(train_ds)
 # print("Validation dataset batches")
 # _retrieveBatches_(val_ds)
+class_names = train_ds.class_names
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
@@ -66,22 +63,28 @@ NUM_CLASSES = 1
 # The machine learning model named in honour of James Hutton
 hutton = Sequential([
     layers.experimental.preprocessing.Rescaling(1. / 255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
-    layers.Conv2D(1, 3, padding='same', activation='relu'),
-    layers.MaxPooling2D(),
     layers.Conv2D(2, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
-    # layers.Conv2D(4, 3, padding='same', activation='relu'),
-    # layers.MaxPooling2D(),
+    layers.Conv2D(8, 3, padding='same', activation='relu'),
+    layers.MaxPooling2D(),
+    layers.Conv2D(16, 3, padding='same', activation='relu'),
+    layers.MaxPooling2D(),
     layers.Dropout(0.2),
     layers.Flatten(),
-    layers.Dense(2, activation='relu'),
+    layers.Dense(8, activation='relu',
+                 kernel_regularizer=tf.keras.regularizers.l2(0.01)),
     layers.Dense(NUM_CLASSES)
 ])
+# Model Optimization
+adam = tf.keras.optimizers.Adam(learning_rate=0.0001,
+                                beta_1=0.9,
+                                beta_2=0.999,
+                                amsgrad=False)
 
 # Model Compilation
 
 hutton.compile(
-    optimizer='adam',
+    optimizer=adam,
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
     metrics=['accuracy']
 )
@@ -90,7 +93,7 @@ hutton.compile(
 hutton.summary()
 
 # Model Training
-epochs = 15
+epochs = 11
 history = hutton.fit(
     train_ds,
     validation_data=val_ds,
@@ -122,11 +125,29 @@ hutton.compile(optimizer='adam',
 
 hutton.summary()
 
-epochs = 15
+epochs = 11
 history = hutton.fit(
     train_ds,
     validation_data=val_ds,
     epochs=epochs
 )
 # Visualize training results
-_visualizeData_(history, epochs)
+# _visualizeData_(history, epochs)
+
+test_dir = 'D:/GitRepos/hutton/rock_samples/test/bst_1.jpg'
+
+test_img = keras.preprocessing.image.load_img(
+    test_dir, target_size=(IMG_HEIGHT, IMG_WIDTH)
+)
+
+img_array = keras.preprocessing.image.img_to_array(test_img)
+img_array = tf.expand_dims(img_array, 0) # Create a batch
+
+
+predictions = hutton.predict(img_array)
+score = tf.nn.softmax(predictions[0])
+
+print(
+    "This image most likely belongs to {} with a {:.2f} percent confidence."
+     .format(class_names[np.argmax(score)], 100 * np.max(score))
+)
