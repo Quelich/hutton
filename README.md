@@ -15,6 +15,7 @@ This project aims to conduct a multiclass classfication of rock images using mac
  - Analyze Overfitting
 5. Evaluate Model
  - Optimization 
+ - Standardization
 6. Deploy Model 
  - Android
  
