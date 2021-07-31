@@ -1,5 +1,5 @@
 # [hutton](https://www.amnh.org/learn-teach/curriculum-collections/earth-inside-and-out/james-hutton)
-This project aims to conduct a multiclass classfication of rock images using machine learning methods.
+This project aims to classify rock types using image classification methods powered by Tensorflow.
 
 ## Methodology ##
 1. Data preparation
