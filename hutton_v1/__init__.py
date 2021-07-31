@@ -15,7 +15,7 @@ BATCH_SIZE = 2
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 # Data directory
-data_dir = 'D:/GitRepos/hutton/rock_samples/train/'
+data_dir = '/rock_samples/train/'
 
 # Training 80% of the images
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
@@ -104,7 +104,7 @@ history = hutton.fit(
 # _visualizeData_(history, epochs)
 # plt.show()
 
-# An profound approach to Overfitting - Data Augmentation
+# Fixing Overfitting - Data Augmentation
 data_augmentation = keras.Sequential(
     [
         layers.experimental.preprocessing.RandomFlip("horizontal",
@@ -134,7 +134,7 @@ history = hutton.fit(
 # Visualize training results
 # _visualizeData_(history, epochs)
 
-test_dir = 'D:/GitRepos/hutton/rock_samples/test/bst_1.jpg'
+test_dir = '/rock_samples/test/bst_1.jpg'
 
 test_img = keras.preprocessing.image.load_img(
     test_dir, target_size=(IMG_HEIGHT, IMG_WIDTH)
