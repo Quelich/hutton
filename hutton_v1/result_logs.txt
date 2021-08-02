@@ -1,0 +1,2 @@
+Log file is initialized at August  02, 2021
+Recorded at August  02, 2021: This image most likely belongs to basalt with a 97.53 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_1.jpg
