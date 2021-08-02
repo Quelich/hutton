@@ -1,5 +1,8 @@
+# TODO _logResults_ needs to process all the data details
+# TODO the resultant data might be serialized as JSON file
 import os
 import matplotlib.pyplot as plt
+import datetime
 
 
 # Adding the image directories to a list
@@ -71,3 +74,26 @@ def _visualizeAugmentedData_(train_ds, data_augmentation):
             plt.axis("off")
     plt.show()
 
+
+def _getToday_():
+    today = datetime.date.today().strftime("%B  %d, %Y")
+    return today
+
+
+def _logResults_(output_data):
+    # Relative log file path
+    logfile_relative_path = "result_logs.txt"
+    # Absolute log file path
+    logfile_absolute_path = 'D:/GitRepos/hutton/hutton_v1/' + logfile_relative_path
+    # Checking if the log file exists
+    is_exist = os.path.exists(logfile_absolute_path)
+    # Gets the date of program execution, necessary for logging
+    today_date = _getToday_()
+    # If not, creates a new log file
+    if not is_exist:
+        logfile = open(logfile_relative_path, "w")
+        logfile.write("Log file is initialized at {}\n".format(str(today_date)))
+        logfile.close()
+    # Logs the the results with date
+    with open(logfile_relative_path, "a") as logs:
+        logs.write("Recorded at {}: {}\n".format(str(today_date), output_data))
