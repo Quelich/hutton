@@ -92,8 +92,24 @@ def _logResults_(output_data):
     # If not, creates a new log file
     if not is_exist:
         logfile = open(logfile_relative_path, "w")
-        logfile.write("Log file is initialized at {}\n".format(str(today_date)))
+        logfile.write("Log file is initialized at {}".format(str(today_date)))
         logfile.close()
     # Logs the the results with date
     with open(logfile_relative_path, "a") as logs:
         logs.write("Recorded at {}: {}\n".format(str(today_date), output_data))
+
+
+def _getLogResults_():
+    # Relative log file path
+    logfile_relative_path = "result_logs.txt"
+    # Absolute log file path
+    logfile_absolute_path = 'D:/GitRepos/hutton/hutton_v1/' + logfile_relative_path
+    # Checking if the log file exists
+    is_exist = os.path.exists(logfile_absolute_path)
+    # If not, returns nothing
+    if not is_exist:
+        raise ValueError("NULL Log file ")
+    with open(logfile_relative_path, "r") as logs:
+        print("---------------------------------------------------------------------")
+        print(logs.readlines())
+        print("---------------------------------------------------------------------")
