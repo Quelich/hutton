@@ -1,2 +1,17 @@
 Log file is initialized at August  02, 2021
 Recorded at August  02, 2021: This image most likely belongs to basalt with a 97.53 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 68.44 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 100.00 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 68.31 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 57.38 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 62.92 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 99.98 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 99.84 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 100.00 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 100.00 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 100.00 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to andesite with a 100.00 percent confidence. for D:/GitRepos/hutton/rock_samples/test/adt_1.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 99.95 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_2.jpg
+Recorded at August  03, 2021: This image most likely belongs to basalt with a 96.35 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_3.jpg
+Recorded at August  04, 2021: This image most likely belongs to basalt with a 99.80 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_4.jpg
+Recorded at August  04, 2021: This image most likely belongs to basalt with a 93.16 percent confidence. for D:/GitRepos/hutton/rock_samples/test/bst_5.jpg

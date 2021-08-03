@@ -5,7 +5,6 @@ import matplotlib.pyplot as plt
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
-from utilities import _getClasses_
 from utilities import _plotImages_
 from utilities import _retrieveBatches_
 from utilities import _visualizeData_
@@ -38,12 +37,12 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     batch_size=BATCH_SIZE
 )
 
-# Visualizing the data
-# _plotImages_(train_ds)
-# print("Train dataset batches")
-# _retrieveBatches_(train_ds)
-# print("Validation dataset batches")
-# _retrieveBatches_(val_ds)
+# Displaying the batch information
+print("Train dataset batches")
+_retrieveBatches_(train_ds)
+print("Validation dataset batches")
+_retrieveBatches_(val_ds)
+
 class_names = train_ds.class_names
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
@@ -67,18 +66,19 @@ hutton = Sequential([
     layers.experimental.preprocessing.Rescaling(1. / 255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
     layers.Conv2D(2, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
-    layers.Conv2D(8, 3, padding='same', activation='relu'),
+    layers.Conv2D(4, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
-    layers.Conv2D(16, 3, padding='same', activation='relu'),
+    layers.Dropout(0.1),
+    layers.Conv2D(8, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
     layers.Dropout(0.2),
     layers.Flatten(),
-    layers.Dense(8, activation='relu',
+    layers.Dense(4, activation='relu',
                  kernel_regularizer=tf.keras.regularizers.l2(0.01)),
     layers.Dense(NUM_CLASSES)
 ])
 # Model Optimization
-adam = tf.keras.optimizers.Adam(learning_rate=0.0001,
+adam = tf.keras.optimizers.Adam(learning_rate=0.00008,
                                 beta_1=0.9,
                                 beta_2=0.999,
                                 amsgrad=False)
@@ -95,7 +95,7 @@ hutton.compile(
 hutton.summary()
 
 # Model Training
-epochs = 11
+epochs = 25
 history = hutton.fit(
     train_ds,
     validation_data=val_ds,
@@ -127,7 +127,7 @@ hutton.compile(optimizer='adam',
 
 hutton.summary()
 
-epochs = 11
+
 history = hutton.fit(
     train_ds,
     validation_data=val_ds,
@@ -136,7 +136,7 @@ history = hutton.fit(
 # Visualize training results
 _visualizeData_(history, epochs)
 
-test_dir = 'D:/GitRepos/hutton/rock_samples/test/bst_1.jpg'
+test_dir = 'D:/GitRepos/hutton/rock_samples/test/bst_5.jpg'
 
 test_img = keras.preprocessing.image.load_img(
     test_dir, target_size=(IMG_HEIGHT, IMG_WIDTH)
@@ -149,11 +149,11 @@ predictions = hutton.predict(img_array)
 score = tf.nn.softmax(predictions[0])
 
 # Displaying the results
-results = "This image most likely belongs to {} with a {:.2f} percent confidence.".format(class_names[np.argmax(score)],
+results = "This image most likely belongs to {} with a {:.2f} percent confidence".format(class_names[np.argmax(score)],
                                                                                           100 * np.max(score))
 print(results)
 
 # Logging the results
-output_data = results + " for " + test_dir
+output_data = results + ";for " + test_dir
 
 _logResults_(output_data)

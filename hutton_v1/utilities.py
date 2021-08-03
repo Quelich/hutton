@@ -15,13 +15,8 @@ def _addImages_(file_dir):
     return data_dirs
 
 
-def _getClasses_(train_dataset):
-    class_names = train_dataset.class_names
-    return class_names
-
-
 def _plotImages_(train_dataset):
-    class_names = _getClasses_(train_dataset)
+    class_names = train_dataset.class_names
     plt.figure(figsize=(10, 10))
     for images, labels in train_dataset.take(1):
         for image in range(9):  # size the batch up
@@ -66,17 +61,21 @@ def _visualizeData_(history, epochs):
 
 def _visualizeAugmentedData_(train_ds, data_augmentation):
     plt.figure(figsize=(10, 10))
+
     for images, _ in train_ds.take(1):
         for i in range(9):
             augmented_images = data_augmentation(images)
             ax = plt.subplot(3, 3, i + 1)
             plt.imshow(augmented_images[0].numpy().astype("uint8"))
+            plt.title('Augmented Data')
             plt.axis("off")
+
     plt.show()
 
 
 def _getToday_():
-    today = datetime.date.today().strftime("%B  %d, %Y")
+    # today = datetime.date.today().strftime("%B  %d, %Y")
+    today = datetime.date.today()
     return today
 
 
@@ -96,7 +95,7 @@ def _logResults_(output_data):
         logfile.close()
     # Logs the the results with date
     with open(logfile_relative_path, "a") as logs:
-        logs.write("Recorded at {}: {}\n".format(str(today_date), output_data))
+        logs.write("Recorded at {}; {}\n".format(str(today_date), output_data))
 
 
 def _getLogResults_():
@@ -111,5 +110,13 @@ def _getLogResults_():
         raise ValueError("NULL Log file ")
     with open(logfile_relative_path, "r") as logs:
         print("---------------------------------------------------------------------")
-        print(logs.readlines())
+        print(logs.read())
         print("---------------------------------------------------------------------")
+
+
+def _enumerateImagesDir_(data_dir):
+    i = 1
+    for file in os.listdir(data_dir):
+        # print(data_dir + "/" + file)
+        os.rename(data_dir + "/" + file, data_dir + "/" + str(i) + ".jpg")
+        i = i + 1
