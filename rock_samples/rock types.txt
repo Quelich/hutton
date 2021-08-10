@@ -4,7 +4,7 @@ Adakite – Class of intermediate to felsic volcanic rocks containing low amount
 Alkali feldspar granite – Granitoid in which at least 90% of the total feldspar is alkali feldspar
 Anorthosite – Mafic intrusive igneous rock composed predominantly of plagioclase
 Aplite – Fine-grained intrusive igneous rock type similar to granite
-Basalt – Magnesium- and iron-rich extrusive igneous rock
++ Basalt – Magnesium- and iron-rich extrusive igneous rock
 Basaltic trachyandesite
 Mugearite – Oligoclase-bearing basalt, comprising olivine, apatite, and opaque oxides
 Shoshonite – Potassium-rich variety of basaltic trachyandesite

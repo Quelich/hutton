@@ -3,9 +3,14 @@
 import os
 import matplotlib.pyplot as plt
 import datetime
+import glob
+from PIL import Image
+import imghdr
 
 
-# Adding the image directories to a list
+
+
+
 def _addImages_(file_dir):
     data_dirs = []
     for filename in os.listdir(file_dir):
@@ -29,10 +34,11 @@ def _plotImages_(train_dataset):
 
 
 def _retrieveBatches_(train_dataset):
+    batch_data = ""
     for image_batch, labels_batch in train_dataset:
-        print("Image Batch: {}\n"
-              "Labels Batch: {}".format(image_batch.shape, labels_batch.shape))
-    return True  # Indicates the process is done
+        batch_info = "Image Batch: {} Labels Batch: {}\n".format(image_batch.shape, labels_batch.shape)
+        batch_data += batch_info
+    return batch_data  # Indicates the process is done
 
 
 def _visualizeData_(history, epochs):
@@ -120,3 +126,13 @@ def _enumerateImagesDir_(data_dir):
         # print(data_dir + "/" + file)
         os.rename(data_dir + "/" + file, data_dir + "/" + str(i) + ".jpg")
         i = i + 1
+
+
+# def _fixImageChannels_(data_dir):
+#     print(data_dir)
+#     for file in os.listdir(data_dir):
+#         image = cv2.imread(file)
+#         file_type = imghdr.what(file)
+#         if file_type != 'jpeg':
+#             print(file + " - invalid - " + str(file_type))
+#     #  cv2.imwrite(file, image)

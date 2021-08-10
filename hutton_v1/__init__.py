@@ -12,7 +12,7 @@ from utilities import _visualizeAugmentedData_
 from utilities import _logResults_
 
 # Data PARAMETERS
-BATCH_SIZE = 2
+BATCH_SIZE = 3
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 # Data directory
@@ -38,10 +38,10 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 )
 
 # Displaying the batch information
-print("Train dataset batches")
-_retrieveBatches_(train_ds)
-print("Validation dataset batches")
-_retrieveBatches_(val_ds)
+# print("Train dataset batches")
+# _retrieveBatches_(train_ds)
+# print("Validation dataset batches")
+# _retrieveBatches_(val_ds)
 
 class_names = train_ds.class_names
 AUTOTUNE = tf.data.experimental.AUTOTUNE
@@ -54,12 +54,13 @@ normalization_layer = layers.experimental.preprocessing.Rescaling(1. / 255)
 normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
 image_batch, labels_batch = next(iter(normalized_ds))
 first_image = image_batch[0]
-# Notice the pixels values are now in `[0,1]`.
+# # Notice the pixels values are now in `[0,1]`.
 print(np.min(first_image), np.max(first_image))
 
-# ML MODEL
-
-NUM_CLASSES = 2
+# ML MODEL ! --------------------------------------------------MODEL
+# ----------------------------------------------------------------------- TODO Initialize Report File (PDF?) every
+#  process should be documented into a report file
+NUM_CLASSES = 3
 
 # The machine learning model named in honour of James Hutton
 hutton = Sequential([
@@ -127,7 +128,6 @@ hutton.compile(optimizer='adam',
 
 hutton.summary()
 
-
 history = hutton.fit(
     train_ds,
     validation_data=val_ds,
@@ -136,8 +136,9 @@ history = hutton.fit(
 # Visualize training results
 _visualizeData_(history, epochs)
 
-test_dir = 'D:/GitRepos/hutton/rock_samples/test/bst_5.jpg'
+test_dir = 'D:/GitRepos/hutton/rock_samples/test/granite/79.jpg'
 
+# TODO use for loop for multiple image files
 test_img = keras.preprocessing.image.load_img(
     test_dir, target_size=(IMG_HEIGHT, IMG_WIDTH)
 )
@@ -150,7 +151,7 @@ score = tf.nn.softmax(predictions[0])
 
 # Displaying the results
 results = "This image most likely belongs to {} with a {:.2f} percent confidence".format(class_names[np.argmax(score)],
-                                                                                          100 * np.max(score))
+                                                                                         100 * np.max(score))
 print(results)
 
 # Logging the results
