@@ -3,12 +3,8 @@
 import os
 import matplotlib.pyplot as plt
 import datetime
-import glob
-from PIL import Image
+import cv2
 import imghdr
-
-
-
 
 
 def _addImages_(file_dir):
@@ -104,7 +100,8 @@ def _logResults_(output_data):
         logs.write("Recorded at {}; {}\n".format(str(today_date), output_data))
 
 
-def _getLogResults_():
+# Prints the all log entries
+def _printLogs_():
     # Relative log file path
     logfile_relative_path = "result_logs.txt"
     # Absolute log file path
@@ -120,6 +117,7 @@ def _getLogResults_():
         print("---------------------------------------------------------------------")
 
 
+# Renames the files in a directory
 def _enumerateImagesDir_(data_dir):
     i = 1
     for file in os.listdir(data_dir):
@@ -128,11 +126,12 @@ def _enumerateImagesDir_(data_dir):
         i = i + 1
 
 
-# def _fixImageChannels_(data_dir):
-#     print(data_dir)
-#     for file in os.listdir(data_dir):
-#         image = cv2.imread(file)
-#         file_type = imghdr.what(file)
-#         if file_type != 'jpeg':
-#             print(file + " - invalid - " + str(file_type))
-#     #  cv2.imwrite(file, image)
+# Finds the image files with broken byte streams
+def _findBrokenImager_(data_dir):
+    print(data_dir)
+    for file in os.listdir(data_dir):
+        image = cv2.imread(data_dir + file)
+        file_type = imghdr.what(data_dir + file)
+        if file_type != 'jpeg':
+            print(file + " - invalid - " + str(file_type))
+        cv2.imwrite(file, image)

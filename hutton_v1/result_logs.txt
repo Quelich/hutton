@@ -22,3 +22,4 @@ Recorded at 2021-08-05; This image most likely belongs to basalt with a 98.62 pe
 Recorded at 2021-08-05; This image most likely belongs to basalt with a 93.90 percent confidence;for D:/GitRepos/hutton/rock_samples/test/basalt/65.jpg
 Recorded at 2021-08-05; This image most likely belongs to basalt with a 93.39 percent confidence;for D:/GitRepos/hutton/rock_samples/test/basalt/116.jpg
 Recorded at 2021-08-06; This image most likely belongs to basalt with a 61.65 percent confidence;for D:/GitRepos/hutton/rock_samples/test/granite/79.jpg
+Recorded at 2021-08-22; This image most likely belongs to granite with a 46.43 percent confidence;for D:/GitRepos/hutton/rock_samples/test/granite/79.jpg

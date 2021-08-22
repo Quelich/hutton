@@ -1,6 +1,6 @@
 
-from utilities import _fixImageChannels_
+from hutton_utilities import _findBrokenImager_
 
 data_dir = "C:/Users/DELL/Desktop/granite/"
-_fixImageChannels_(data_dir)
+_findBrokenImager_(data_dir)
 
