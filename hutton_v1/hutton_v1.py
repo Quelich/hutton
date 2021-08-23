@@ -1,13 +1,5 @@
 # Creating the dataset of specified directory
-import numpy as np
 import tensorflow as tf
-import matplotlib.pyplot as plt
-from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import Sequential
-from hutton_utilities import _visualizeData_
-from hutton_utilities import _visualizeAugmentedData_
-from hutton_utilities import _logResults_
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, experimental
 from tensorflow.keras import Model
 

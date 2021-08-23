@@ -83,7 +83,7 @@ def _getToday_():
 
 def _logResults_(output_data):
     # Relative log file path
-    logfile_relative_path = "result_logs.txt"
+    logfile_relative_path = "../result_logs.txt"
     # Absolute log file path
     logfile_absolute_path = 'D:/GitRepos/hutton/hutton_v1/' + logfile_relative_path
     # Checking if the log file exists
@@ -103,7 +103,7 @@ def _logResults_(output_data):
 # Prints the all log entries
 def _printLogs_():
     # Relative log file path
-    logfile_relative_path = "result_logs.txt"
+    logfile_relative_path = "../result_logs.txt"
     # Absolute log file path
     logfile_absolute_path = 'D:/GitRepos/hutton/hutton_v1/' + logfile_relative_path
     # Checking if the log file exists

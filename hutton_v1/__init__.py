@@ -1,22 +1,29 @@
 # Creating the dataset of specified directory
+import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
-from hutton_utilities import _visualizeData_
-from hutton_utilities import _visualizeAugmentedData_
-from hutton_utilities import _logResults_
+from hutton_v1.utilities.hutton_utilities import _visualizeData_
+from hutton_v1.utilities.hutton_utilities import _visualizeAugmentedData_
+from hutton_v1.utilities.hutton_utilities import _logResults_
+global data_dir
 
 # Data PARAMETERS
 BATCH_SIZE = 3
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
-# Data directory
-# Get the data from Github or Drive
+# Local directory of the data
 data_dir = 'D:/GitRepos/hutton/rock_samples/train'
 
+# Get the data from Github
+raw_data_path = tf.keras.utils.get_file(
+    'train.zip',
+    'https://github.com/Quelich/hutton/blob/main/rock_samples/train.zip',
+    extract=True)
+image_path = os.path.join(os.path.dirname(raw_data_path), 'train')
 
 # Training 80% of the images
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
@@ -52,6 +59,7 @@ val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 normalization_layer = layers.experimental.preprocessing.Rescaling(1. / 255)
 
 normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
+# Tensors
 image_batch, labels_batch = next(iter(normalized_ds))
 first_image = image_batch[0]
 # # Notice the pixels values are now in `[0,1]`.
