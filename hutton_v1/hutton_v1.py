@@ -11,12 +11,8 @@ from hutton_utilities import _logResults_
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, experimental
 from tensorflow.keras import Model
 
+# Hutton class model
 class Hutton(Model):
-    BATCH_SIZE = 3
-    NUM_CLASSES = 3
-    IMG_HEIGHT = 180
-    IMG_WIDTH = 180
-
     def __init__(self, batch_size, num_classes, img_height, img_width):
         super(Hutton, self).__init__()
         self.BATCH_SIZE = batch_size
@@ -24,7 +20,7 @@ class Hutton(Model):
         self.IMG_HEIGHT = img_height
         self.IMG_WIDTH = img_width
         self.preprocessing = experimental.preprocessing.Rescaling(1. / 255,
-                                                                  input_shape=(self.IMG_HEIGHT, self.IMG_WIDTH, 3))
+                                                                  input_shape=(img_height, img_width, 3))
         self.conv1 = Conv2D(2, 3, padding='same', activation='relu')
         self.pooling1 = MaxPooling2D()
         self.conv2 = Conv2D(4, 3, padding='same', activation='relu')
@@ -36,7 +32,13 @@ class Hutton(Model):
         self.flatten = Flatten()
         self.d1 = Dense(4, activation='relu',
                         kernel_regularizer=tf.keras.regularizers.l2(0.01))
-        self.d2 = Dense(self.NUM_CLASSES)
+        self.d2 = Dense(num_classes)
+
+    def call(self, inputs, training=None, mask=None):
+        pass
+
+    def get_config(self):
+        pass
 
     def get_NUM_CLASSES(self):
         return self.NUM_CLASSES
@@ -61,9 +63,3 @@ class Hutton(Model):
 
     def set_IMG_WIDTH(self, new_img_width):
         self.IMG_WIDTH = new_img_width
-
-    def call(self, inputs, training=None, mask=None):
-        pass
-
-    def get_config(self):
-        pass

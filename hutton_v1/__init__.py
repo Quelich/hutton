@@ -14,7 +14,9 @@ BATCH_SIZE = 3
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 # Data directory
+# Get the data from Github or Drive
 data_dir = 'D:/GitRepos/hutton/rock_samples/train'
+
 
 # Training 80% of the images
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(
@@ -119,7 +121,7 @@ data_augmentation = keras.Sequential(
 # Visualizing the augmented images
 _visualizeAugmentedData_(train_ds, data_augmentation)
 
-# Compile the model Hutton
+# Recompile the model Hutton
 Hutton.compile(optimizer='adam',
                loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
                metrics=['accuracy'])
