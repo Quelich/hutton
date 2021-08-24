@@ -3,18 +3,20 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
+import utilities
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
-from hutton_v1.utilities.hutton_utilities import _visualizeData_
-from hutton_v1.utilities.hutton_utilities import _visualizeAugmentedData_
-from hutton_v1.utilities.hutton_utilities import _logResults_
-from hutton_v1.utilities.hutton_utilities import _getResults_
+from utilities.hutton_utilities import _visualizeData_
+from utilities.hutton_utilities import _logResults_
+from utilities.hutton_utilities import _getResults_
 
 # Data PARAMETERS
-BATCH_SIZE = 3
+BATCH_SIZE = 4
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
+NUM_CLASSES = 4
+
 # Local directory of the data
 data_dir = 'D:/GitRepos/hutton/rock_samples/train'
 
@@ -68,7 +70,7 @@ print(np.min(first_image), np.max(first_image))
 # ML MODEL ! --------------------------------------------------MODEL
 # ----------------------------------------------------------------------- TODO Initialize Report File (PDF?) every
 #  process should be documented into a report file
-NUM_CLASSES = 3
+
 
 # The machine learning model named in honor of James Hutton
 Hutton = Sequential([
@@ -77,7 +79,7 @@ Hutton = Sequential([
     layers.MaxPooling2D(),
     layers.Conv2D(4, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
-    layers.Dropout(0.1),
+    layers.Dropout(0.2),
     layers.Conv2D(8, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
     layers.Dropout(0.2),
@@ -86,6 +88,7 @@ Hutton = Sequential([
                  kernel_regularizer=tf.keras.regularizers.l2(0.01)),
     layers.Dense(NUM_CLASSES)
 ])
+
 # Model Optimization
 adam = tf.keras.optimizers.Adam(learning_rate=0.00008,
                                 beta_1=0.9,
@@ -93,7 +96,6 @@ adam = tf.keras.optimizers.Adam(learning_rate=0.00008,
                                 amsgrad=False)
 
 # Model Compilation
-
 Hutton.compile(
     optimizer=adam,
     loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
@@ -126,8 +128,6 @@ data_augmentation = keras.Sequential(
         layers.experimental.preprocessing.RandomZoom(0.1),
     ]
 )
-# Visualizing the augmented images
-_visualizeAugmentedData_(train_ds, data_augmentation)
 
 # Recompile the model Hutton
 Hutton.compile(optimizer='adam',
@@ -144,7 +144,7 @@ history = Hutton.fit(
 # Visualize training results
 _visualizeData_(history, epochs)
 
-test_dir = 'D:/GitRepos/hutton/rock_samples/test/granite/79.jpg'
+test_dir = 'D:/GitRepos/hutton/rock_samples/test/coal/96.jpg'
 
 # TODO use for loop for multiple image files
 test_img = keras.preprocessing.image.load_img(
@@ -152,7 +152,8 @@ test_img = keras.preprocessing.image.load_img(
 )
 
 img_array = keras.preprocessing.image.img_to_array(test_img)
-img_array = tf.expand_dims(img_array, 0)  # Create a batch
+# Create a batch
+img_array = tf.expand_dims(img_array, 0)
 
 predictions = Hutton.predict(img_array)
 score = tf.nn.softmax(predictions[0])
@@ -166,5 +167,4 @@ output_data = results + ";for " + test_dir
 
 _logResults_(output_data)
 
-# Export to Tensorflow Lite Model
-Hutton.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite')
+

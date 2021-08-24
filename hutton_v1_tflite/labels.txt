@@ -1,0 +1,4 @@
+andesite
+basalt
+coal
+granite

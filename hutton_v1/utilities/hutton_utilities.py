@@ -13,7 +13,6 @@ def _getResults_(class_names, score):
     results = "This image most likely belongs to {} with a {:.2f} percent confidence".format(
         class_names[np.argmax(score)],
         100 * np.max(score))
-
     return results
 
 
@@ -132,16 +131,17 @@ def _enumerateImagesDir_(data_dir):
     i = 1
     for file in os.listdir(data_dir):
         # print(data_dir + "/" + file)
-        os.rename(data_dir + "/" + file, data_dir + "/" + str(i) + ".jpg")
+        os.rename(data_dir + "/" + str(file), data_dir + "/" + str(i) + ".jpg")
         i = i + 1
+    print("Process Complete")
 
 
 # Finds the image files with broken byte streams
 def _findBrokenImager_(data_dir):
-    print(data_dir)
     for file in os.listdir(data_dir):
         image = cv2.imread(data_dir + file)
         file_type = imghdr.what(data_dir + file)
-        if file_type != 'jpeg':
+        if file_type != 'jpg':
             print(file + " - invalid - " + str(file_type))
         cv2.imwrite(file, image)
+    print("Found all broken images")

@@ -1,0 +1,12 @@
+Log file is initialized at 2021-08-24Recorded at 2021-08-24; This image most likely belongs to coal with a 81.22 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/1.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 100.00 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/1.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 59.09 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/19.jpg
+Recorded at 2021-08-24; This image most likely belongs to basalt with a 41.15 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/19.jpg
+Recorded at 2021-08-24; This image most likely belongs to granite with a 35.49 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/19.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 84.40 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/19.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 99.76 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/43.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 95.11 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/50.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 50.71 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/66.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 39.26 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/72.jpg
+Recorded at 2021-08-24; This image most likely belongs to coal with a 97.14 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/77.jpg
+Recorded at 2021-08-24; This image most likely belongs to andesite with a 60.87 percent confidence;for D:/GitRepos/hutton/rock_samples/test/coal/96.jpg

@@ -69,4 +69,6 @@ hutton_tflite = image_classifier.create(train_data)
 # # Evaluate the model
 loss, accuracy = hutton_tflite.evaluate(test_data)
 # # Export to TensorFlow Lite model
-hutton_tflite.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite')
+hutton_tflite.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite',
+                     tflite_filename='model.tflite',
+                     label_filename='labels.txt')
