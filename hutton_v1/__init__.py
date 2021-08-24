@@ -9,7 +9,7 @@ from tensorflow.keras.models import Sequential
 from hutton_v1.utilities.hutton_utilities import _visualizeData_
 from hutton_v1.utilities.hutton_utilities import _visualizeAugmentedData_
 from hutton_v1.utilities.hutton_utilities import _logResults_
-global data_dir
+from hutton_v1.utilities.hutton_utilities import _getResults_
 
 # Data PARAMETERS
 BATCH_SIZE = 3
@@ -158,11 +158,13 @@ predictions = Hutton.predict(img_array)
 score = tf.nn.softmax(predictions[0])
 
 # Displaying the results
-results = "This image most likely belongs to {} with a {:.2f} percent confidence".format(class_names[np.argmax(score)],
-                                                                                         100 * np.max(score))
+results = _getResults_(class_names, score)
 print(results)
 
 # Logging the results
 output_data = results + ";for " + test_dir
 
 _logResults_(output_data)
+
+# Export to Tensorflow Lite Model
+Hutton.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite')

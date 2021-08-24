@@ -1,10 +1,20 @@
 # TODO _logResults_ needs to process all the data details
 # TODO the resultant data might be serialized as JSON file
 import os
+import numpy as np
 import matplotlib.pyplot as plt
 import datetime
 import cv2
 import imghdr
+
+
+# Displaying the results
+def _getResults_(class_names, score):
+    results = "This image most likely belongs to {} with a {:.2f} percent confidence".format(
+        class_names[np.argmax(score)],
+        100 * np.max(score))
+
+    return results
 
 
 def _addImages_(file_dir):
