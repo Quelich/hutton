@@ -10,7 +10,7 @@ This project aims to classify rock types using image classification methods powe
 3. Build a TensorFlow model for the predictions
 
 4. Train Model
- - Distribution Strategy: GPU
+ - Distribution Strategy: CPU
  - Hyperparameter tuning
  - Analyze Overfitting
 5. Evaluate Model
