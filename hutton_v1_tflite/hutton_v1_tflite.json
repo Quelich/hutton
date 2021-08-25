@@ -1,6 +1,6 @@
 {
   "name": "Hutton image classifier",
-  "description": "Identify the most prominent object in the image from a set of 1,001 categories such as trees, animals, food, vehicles, person etc.",
+  "description": "Identify the most prominent rock type in the image from a set of 4 categories such as andesite, basalt, granite, coal etc.",
   "version": "v1",
   "subgraph_metadata": [
     {

@@ -16,7 +16,23 @@ IMG_HEIGHT = 180
 IMG_WIDTH = 180
 
 data_dir = 'D:/GitRepos/hutton/rock_samples/train'
-#
+
+data = DataLoader.from_folder(data_dir)
+train_data, test_data = data.split(0.9)
+# Customize the TensorFlow model
+hutton_tflite = image_classifier.create(train_data)
+# Evaluate the model
+loss, accuracy = hutton_tflite.evaluate(test_data)
+# Quantization
+config = QuantizationConfig.for_float16()
+# # Export to TensorFlow Lite model
+hutton_tflite.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite',
+                     tflite_filename='hutton.tflite',
+                     quantization_config=config)
+
+hutton_tflite.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite',
+                     export_format=ExportFormat.LABEL)
+
 # # Training 80% of the images
 # train_ds = tf.keras.preprocessing.image_dataset_from_directory(
 #     data_dir,
@@ -62,13 +78,4 @@ data_dir = 'D:/GitRepos/hutton/rock_samples/train'
 # print(train_data)
 # print("--------------Test Data--------------")
 # print(test_data)
-data = DataLoader.from_folder(data_dir)
-train_data, test_data = data.split(0.9)
-# # Customize the TensorFlow model
-hutton_tflite = image_classifier.create(train_data)
-# # Evaluate the model
-loss, accuracy = hutton_tflite.evaluate(test_data)
-# # Export to TensorFlow Lite model
-hutton_tflite.export(export_dir='D:/GitRepos/hutton/hutton_v1_tflite',
-                     tflite_filename='model.tflite',
-                     label_filename='labels.txt')
+

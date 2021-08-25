@@ -12,9 +12,9 @@ from absl import flags
 # Model information
 model_meta = _metadata_fb.ModelMetadataT()
 model_meta.name = "Hutton image classifier"
-model_meta.description = ("Identify the most prominent object in the "
-                          "image from a set of 1,001 categories such as "
-                          "trees, animals, food, vehicles, person etc.")
+model_meta.description = ("Identify the most prominent rock type in the "
+                          "image from a set of 4 categories such as "
+                          "andesite, basalt, granite, coal etc.")
 model_meta.version = "v1"
 model_meta.author = "emre_kilic"
 model_meta.license = ("Apache License. Version 2.0 "
@@ -78,10 +78,10 @@ b.Finish(
 metadata_buf = b.Output()
 
 # Packs metadata and associated files into the model
-model_file = "D:/GitRepos/hutton/hutton_v1_tflite/model.tflite"
+model_file = "D:/GitRepos/hutton/hutton_v1_tflite/hutton.tflite"
 populator = _metadata.MetadataPopulator.with_model_file(model_file)
 populator.load_metadata_buffer(metadata_buf)
-populator.load_associated_files(["D:/GitRepos/hutton/hutton_v1_tflite/labels.txt"])
+# populator.load_associated_files(["D:/GitRepos/hutton/hutton_v1_tflite/labels.txt"])
 populator.populate()
 
 # Visualize metadata
