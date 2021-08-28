@@ -3,22 +3,22 @@ import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import utilities
+import hutton_v1.utilities
 from tensorflow import keras
 from tensorflow.keras import layers
 from tensorflow.keras.models import Sequential
-from utilities.hutton_utilities import _visualizeData_
-from utilities.hutton_utilities import _logResults_
-from utilities.hutton_utilities import _getResults_
+from hutton_v1.utilities.hutton_utilities import _visualizeData_
+from hutton_v1.utilities.hutton_utilities import _logResults_
+from hutton_v1.utilities.hutton_utilities import _getResults_
 
-# Data PARAMETERS
+# Data PARAMETERS TODO optimize parameters
 BATCH_SIZE = 4
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 NUM_CLASSES = 4
 
 # Local directory of the data
-data_dir = 'D:/GitRepos/hutton/rock_samples/train'
+data_dir = '/rock_samples/train'
 
 # Get the data from Github
 raw_data_path = tf.keras.utils.get_file(
@@ -144,7 +144,7 @@ history = Hutton.fit(
 # Visualize training results
 _visualizeData_(history, epochs)
 
-test_dir = 'D:/GitRepos/hutton/rock_samples/test/coal/96.jpg'
+test_dir = '/rock_samples/test/coal/96.jpg'
 
 # TODO use for loop for multiple image files
 test_img = keras.preprocessing.image.load_img(
