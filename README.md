@@ -1,5 +1,7 @@
 # [hutton](https://www.amnh.org/learn-teach/curriculum-collections/earth-inside-and-out/james-hutton)
 This project aims to classify rock types using image classification methods powered by Tensorflow.
+## Infrastructure
+- Python 3.7
 ## Required Modules for Standalone Desktop Utilization
 ```Python
 python pip install os
@@ -7,8 +9,9 @@ python pip install tensorflow
 python pip install numpy
 python pip install keras
 ```
-## Prepare a Image Dataset 
--[Required] Prepare train and validation datasets to make Hutton model 
+## Fundamental Use of Hutton Pipeline
+### _Prepare a Image Dataset for Hutton_
+- [Required] Prepare train and validation datasets to make Hutton model 
 ```Python
 # Initialize the dataset instance
 hutton_v1_dataset = Hutton_Dataset()
@@ -46,3 +49,8 @@ print("Train dataset: {}".format(current_train_ds))
 print("Validation dataset: {}".format(current_val_ds))
 print("First mapped image in dataset: {}-{}".format(np.min(first_image), np.max(first_image)))
 ```
+### _Instantiate Hutton Image Classifier_ 
+## Fundamental Use of Hutton on Desktop
+_coming soon_
+## Fundamental Use of Hutton on Android
+_coming soon_
