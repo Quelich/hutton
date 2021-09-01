@@ -22,10 +22,13 @@ hutton_v1_dataset.set_DATA_DIR(data_dir)
 external_data_url = 'https://github.com/Quelich/hutton/blob/main/rock_samples/train.zip'
 hutton_v1_dataset.set_SOURCE_DATA_DIR('train.zip', external_data_url)
 source_data_dir = hutton_v1_dataset.get_SOURCE_DATA_DIR()
+# Set the active data source directory
+active_data_dir = data_dir
+hutton_v1_dataset.set_ACTIVE_DATA_DIR(active_data_dir)
+# Prepare the training and validation datasets
 hutton_v1_dataset.prepare_train_dataset()
-# hutton_v1.get_train_dataset()
 hutton_v1_dataset.prepare_validation_dataset()
-hutton_v1_dataset.autotune_datasets()
+# Create batches
 image_batch, label_batch = hutton_v1_dataset.create_batches()
 ```
 - [Optional] Set up the parameters
@@ -40,9 +43,9 @@ first_image = image_batch[0]
 ```
 - [Optional] Display the parameters to visualize the infrastructure
 ```Python
-print("Data directory: {}".format(data_dir))
+print("Data directory: {}".format(active_data_dir))
 print("External data directory: {}".format(source_data_dir))
-print("Image height and width: {}x{}".format(img_height,img_width))
+print("Image height and width: {}x{}".format(img_height, img_width))
 print("Batch size: {}".format(batch_size))
 print("Number of classes(labels): {}".format(batch_size))
 print("Train dataset: {}".format(current_train_ds))
