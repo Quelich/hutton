@@ -1,57 +1,164 @@
 # Creating the dataset of specified directory
+import os
 import tensorflow as tf
+import numpy as np
 from tensorflow.keras.layers import Dense, Flatten, Conv2D, MaxPooling2D, Dropout, experimental
 from tensorflow.keras import Model
+from tensorflow.keras import layers
+
+
+# define Model
+# set img_height, img_width, num_classes
 
 # Hutton class model
-class Hutton(Model):
-    def __init__(self, batch_size, num_classes, img_height, img_width):
-        super(Hutton, self).__init__()
-        self.BATCH_SIZE = batch_size
-        self.NUM_CLASSES = num_classes
-        self.IMG_HEIGHT = img_height
-        self.IMG_WIDTH = img_width
-        self.preprocessing = experimental.preprocessing.Rescaling(1. / 255,
-                                                                  input_shape=(img_height, img_width, 3))
-        self.conv1 = Conv2D(2, 3, padding='same', activation='relu')
-        self.pooling1 = MaxPooling2D()
-        self.conv2 = Conv2D(4, 3, padding='same', activation='relu')
-        self.pooling2 = MaxPooling2D()
-        self.dropout1 = Dropout(0.1)
-        self.conv3 = Conv2D(8, 3, padding='same', activation='relu')
-        self.pooling3 = MaxPooling2D()
-        self.dropout2 = Dropout(0.2)
-        self.flatten = Flatten()
-        self.d1 = Dense(4, activation='relu',
-                        kernel_regularizer=tf.keras.regularizers.l2(0.01))
-        self.d2 = Dense(num_classes)
+class Hutton_Dataset():
+    def __init__(self):
+        self.BATCH_SIZE = 4
+        self.NUM_CLASSES = 0
+        self.IMG_HEIGHT = 180
+        self.IMG_WIDTH = 180
+        self.DATA_DIR = None
+        self.SOURCE_DATA_DIR = None
+        self.TRAIN_DATASET = None
+        self.VALIDATION_DATASET = None
 
-    def call(self, inputs, training=None, mask=None):
-        pass
+    # Get the current training dataset
+    def get_train_dataset(self):
+        return self.TRAIN_DATASET
 
-    def get_config(self):
-        pass
+    # Prepares a training dataset from 80% of the images
+    # and sets that to TRAIN_DATASET
+    def prepare_train_dataset(self):
+        if self.DATA_DIR is None or self.BATCH_SIZE is None:
+            return None
+        if self.IMG_WIDTH is None or self.IMG_HEIGHT is None:
+            return None
 
+        train_ds = tf.keras.preprocessing.image_dataset_from_directory(
+            self.DATA_DIR,
+            validation_split=0.2,
+            subset="training",
+            seed=123,
+            image_size=(self.IMG_HEIGHT, self.IMG_WIDTH),
+            batch_size=self.BATCH_SIZE,
+        )
+        self.TRAIN_DATASET = train_ds
+
+    # Get the current validation dataset
+    def get_validation_dataset(self):
+        return self.VALIDATION_DATASET
+
+    # Prepares a training dataset from 20% of the images
+    def prepare_validation_dataset(self):
+        if self.DATA_DIR is None or self.BATCH_SIZE is None:
+            return None
+        if self.IMG_WIDTH is None or self.IMG_HEIGHT is None:
+            return None
+        val_ds = tf.keras.preprocessing.image_dataset_from_directory(
+            self.DATA_DIR,
+            validation_split=0.2,
+            subset="validation",
+            seed=123,
+            image_size=(self.IMG_HEIGHT, self.IMG_WIDTH),
+            batch_size=self.BATCH_SIZE
+        )
+        self.VALIDATION_DATASET = val_ds
+
+    def autotune_datasets(self):
+        train_ds = self.TRAIN_DATASET
+        val_ds = self.VALIDATION_DATASET
+        AUTOTUNE = tf.data.experimental.AUTOTUNE
+        train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
+        val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
+        # Updating the current values of both train and validation datasets
+        self.TRAIN_DATASET = train_ds
+        self.VALIDATION_DATASET = val_ds
+
+    def create_batches(self):
+        # Standardize values in range [0,1] by using Rescaling layer
+        normalization_layer = layers.experimental.preprocessing.Rescaling(1. / 255)
+        # Map dataset
+        normalized_ds = self.TRAIN_DATASET.map(lambda x, y: (normalization_layer(x), y))
+        images_batch, labels_batch = next(iter(normalized_ds))
+        return images_batch, labels_batch
+
+    # Get the absolute data directory
+    def get_DATA_DIR(self):
+        return self.DATA_DIR
+
+    # Set the absolute data directory
+    def set_DATA_DIR(self, new_data_dir):
+        self.DATA_DIR = new_data_dir
+
+    def get_SOURCE_DATA_DIR(self):
+        return self.SOURCE_DATA_DIR
+
+    def set_SOURCE_DATA_DIR(self, file_name, file_url):
+        raw_data_path = tf.keras.utils.get_file(
+            file_name,
+            file_url,
+            extract=True)
+        extracted_data_path = os.path.join(os.path.dirname(raw_data_path), 'train')
+        self.SOURCE_DATA_DIR = extracted_data_path
+
+    # Get number of classes or labels
     def get_NUM_CLASSES(self):
         return self.NUM_CLASSES
 
+    # Set number of classes or labels
     def set_NUM_CLASSES(self, new_class_value):
         self.NUM_CLASSES = new_class_value
 
+    # Get batch size to define how many batches will be created
+    # to combine consecutive elements of the dataset
     def get_BATCH_SIZE(self):
         return self.BATCH_SIZE
 
+    # Set batch size
     def set_BATCH_SIZE(self, new_batch_size):
         self.BATCH_SIZE = new_batch_size
 
+    # Get the image height, which is same for all images
     def get_IMG_HEIGHT(self):
         return self.IMG_HEIGHT
 
+    # Set the image height
     def set_IMG_HEIGHT(self, new_img_height):
         self.IMG_HEIGHT = new_img_height
 
+    # Get the image width, which is same for all images
     def get_IMG_WIDTH(self):
         return self.IMG_WIDTH
 
+    # Set the image width
     def set_IMG_WIDTH(self, new_img_width):
         self.IMG_WIDTH = new_img_width
+
+
+# Prepare train and validation datasets to make Hutton model functional
+hutton_v1 = Hutton_Dataset()
+data_dir = "D:/GitRepos/hutton/rock_samples/train"
+hutton_v1.set_DATA_DIR(data_dir)
+hutton_v1.prepare_train_dataset()
+# hutton_v1.get_train_dataset()
+hutton_v1.prepare_validation_dataset()
+hutton_v1.autotune_datasets()
+image_batch, label_batch = hutton_v1.create_batches()
+
+# Display the parameters for better understanding
+img_height = hutton_v1.get_IMG_HEIGHT()
+img_width = hutton_v1.get_IMG_WIDTH()
+batch_size = hutton_v1.get_BATCH_SIZE()
+number_classes = hutton_v1.get_NUM_CLASSES()
+current_train_ds = hutton_v1.get_train_dataset()
+current_val_ds = hutton_v1.get_validation_dataset()
+first_image = image_batch[0]
+print("Data directory: {}".format(data_dir))
+print("Image height and width: {}x{}".format(img_height,img_width))
+print("Batch size: {}".format(batch_size))
+print("Number of classes(labels): {}".format(batch_size))
+print("Train dataset: {}".format(current_train_ds))
+print("Validation dataset: {}".format(current_val_ds))
+print("First mapped image in dataset: {}-{}".format(np.min(first_image), np.max(first_image)))
+
+

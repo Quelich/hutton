@@ -10,6 +10,10 @@ from tensorflow.keras.models import Sequential
 from hutton_v1.utilities.hutton_utilities import _visualizeData_
 from hutton_v1.utilities.hutton_utilities import _logResults_
 from hutton_v1.utilities.hutton_utilities import _getResults_
+from hutton_v1.hutton_gui import hutton_app
+
+
+test_image_selected = hutton_app.hutton_app.get_dir()
 
 # Data PARAMETERS TODO optimize parameters
 BATCH_SIZE = 4
@@ -36,6 +40,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
     image_size=(IMG_HEIGHT, IMG_WIDTH),
     batch_size=BATCH_SIZE,
 )
+
 # Validating 20% of the images
 val_ds = tf.keras.preprocessing.image_dataset_from_directory(
     data_dir,
@@ -52,7 +57,7 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 # print("Validation dataset batches")
 # _retrieveBatches_(val_ds)
 
-class_names = train_ds.class_names
+
 AUTOTUNE = tf.data.experimental.AUTOTUNE
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
@@ -144,7 +149,7 @@ history = Hutton.fit(
 # Visualize training results
 _visualizeData_(history, epochs)
 
-test_dir = '/rock_samples/test/coal/96.jpg'
+test_dir = test_image_selected
 
 # TODO use for loop for multiple image files
 test_img = keras.preprocessing.image.load_img(
@@ -159,6 +164,7 @@ predictions = Hutton.predict(img_array)
 score = tf.nn.softmax(predictions[0])
 
 # Displaying the results
+class_names = train_ds.class_names
 results = _getResults_(class_names, score)
 print(results)
 
@@ -168,3 +174,8 @@ output_data = results + ";for " + test_dir
 _logResults_(output_data)
 
 
+# TODO add this method to the class
+
+def hutton_classification_result():
+    classification_result = _getResults_(class_names, score)
+    return classification_result
