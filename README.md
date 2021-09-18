@@ -41,17 +41,6 @@ current_train_ds = hutton_v1_dataset.get_train_dataset()
 current_val_ds = hutton_v1_dataset.get_validation_dataset()
 first_image = image_batch[0]
 ```
-- [Optional] Display the parameters to visualize the infrastructure
-```Python
-print("Data directory: {}".format(active_data_dir))
-print("External data directory: {}".format(source_data_dir))
-print("Image height and width: {}x{}".format(img_height, img_width))
-print("Batch size: {}".format(batch_size))
-print("Number of classes(labels): {}".format(batch_size))
-print("Train dataset: {}".format(current_train_ds))
-print("Validation dataset: {}".format(current_val_ds))
-print("First mapped image in dataset: {}-{}".format(np.min(first_image), np.max(first_image)))
-```
 ### _Instantiate Hutton Image Classifier_ 
 ## Fundamental Use of Hutton on Desktop
 _coming soon_
