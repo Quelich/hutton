@@ -1,4 +1,4 @@
-# [hutton](https://www.amnh.org/learn-teach/curriculum-collections/earth-inside-and-out/james-hutton)
+# [hutton](https://en.wikipedia.org/wiki/James_Hutton)
 This project aims to classify rock types using image classification methods powered by Tensorflow.
 ## Infrastructure
 - Python 3.7
