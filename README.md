@@ -42,7 +42,7 @@ current_val_ds = hutton_v1_dataset.get_validation_dataset()
 first_image = image_batch[0]
 ```
 ### _Instantiate Hutton Image Classifier_ 
-## Fundamental Use of Hutton on Desktop
+## Desktop
 _coming soon_
-## Fundamental Use of Hutton on Android
+## Android
 _coming soon_
