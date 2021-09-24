@@ -12,7 +12,6 @@ from hutton_v1.utilities.hutton_utilities import _logResults_
 from hutton_v1.utilities.hutton_utilities import _getResults_
 from hutton_v1.hutton_gui import hutton_app
 
-
 test_image_selected = hutton_app.hutton_app.get_dir()
 
 # Data PARAMETERS TODO optimize parameters
@@ -78,6 +77,7 @@ print(np.min(first_image), np.max(first_image))
 
 
 # The machine learning model named in honor of James Hutton
+# TODO optimize the model
 Hutton = Sequential([
     layers.experimental.preprocessing.Rescaling(1. / 255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
     layers.Conv2D(2, 3, padding='same', activation='relu'),
@@ -179,3 +179,4 @@ _logResults_(output_data)
 def hutton_classification_result():
     classification_result = _getResults_(class_names, score)
     return classification_result
+
