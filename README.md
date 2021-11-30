@@ -41,8 +41,3 @@ current_train_ds = hutton_v1_dataset.get_train_dataset()
 current_val_ds = hutton_v1_dataset.get_validation_dataset()
 first_image = image_batch[0]
 ```
-### _Instantiate Hutton Image Classifier_ 
-## Desktop
-_coming soon_
-## Android
-_coming soon_
