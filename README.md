@@ -10,7 +10,7 @@ python pip install numpy
 python pip install keras
 ```
 ## Fundamental Use of Hutton Pipeline
-- You can get the dataset from [Kaggle](https://www.kaggle.com/quelich/rock-photos)
+- You can get the dataset from [Kaggle](https://www.kaggle.com/quelich/rock-photos). Feel free to contribute :D
 ### _Prepare a Image Dataset for Hutton_
 - [Required] Prepare train and validation datasets to make Hutton model 
 ```Python
