@@ -1,18 +1,29 @@
 # [hutton](https://en.wikipedia.org/wiki/James_Hutton)
+
 This project aims to classify rock types using image classification methods powered by Tensorflow.
+
 ## Infrastructure
+
 - Python 3.7
+
 ## Required Modules for Standalone Desktop Utilization
+
 ```Python
 python pip install os
 python pip install tensorflow
 python pip install numpy
 python pip install keras
+
 ```
+
 ## Fundamental Use of Hutton Pipeline
+
 - You can get the dataset from [Kaggle](https://www.kaggle.com/quelich/rock-photos). Feel free to contribute :D
+
 ### _Prepare a Image Dataset for Hutton_
-- [Required] Prepare train and validation datasets to make Hutton model 
+
+- [Required] Prepare train and validation datasets to make Hutton model
+
 ```Python
 # Initialize the dataset instance
 hutton_v1_dataset = Hutton_Dataset()
@@ -32,7 +43,9 @@ hutton_v1_dataset.prepare_validation_dataset()
 # Create batches
 image_batch, label_batch = hutton_v1_dataset.create_batches()
 ```
+
 - [Optional] Set up the parameters
+
 ```Python
 img_height = hutton_v1_dataset.get_IMG_HEIGHT()
 img_width = hutton_v1_dataset.get_IMG_WIDTH()

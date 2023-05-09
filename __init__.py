@@ -1,19 +1,17 @@
 # Creating the dataset of specified directory
-import os
 import numpy as np
 import tensorflow as tf
 import matplotlib.pyplot as plt
-import hutton_v1.utilities
+
 from tensorflow import keras
-from tensorflow.keras import layers
-from tensorflow.keras.models import Sequential
+from keras import layers
+from keras.models import Sequential
 from hutton_v1.utilities.hutton_utilities import _visualizeData_
 from hutton_v1.utilities.hutton_utilities import _logResults_
 from hutton_v1.utilities.hutton_utilities import _getResults_
-from hutton_v1.hutton_gui import hutton_app
 
-test_image_selected = hutton_app.hutton_app.get_dir()
 
+is_visualize = False
 # Data PARAMETERS TODO optimize parameters
 BATCH_SIZE = 4
 IMG_HEIGHT = 180
@@ -21,17 +19,11 @@ IMG_WIDTH = 180
 NUM_CLASSES = 4
 
 # Local directory of the data
-data_dir = '/rock_samples/train'
+data_dir = 'C:/repos/hutton/rock_samples/train'
 
-# Get the data from Github
-raw_data_path = tf.keras.utils.get_file(
-    'train.zip',
-    'https://github.com/Quelich/hutton/blob/main/rock_samples/train.zip',
-    extract=True)
-image_path = os.path.join(os.path.dirname(raw_data_path), 'train')
 
 # Training 80% of the images
-train_ds = tf.keras.preprocessing.image_dataset_from_directory(
+train_ds = tf.keras.utils.image_dataset_from_directory(
     data_dir,
     validation_split=0.2,
     subset="training",
@@ -41,7 +33,7 @@ train_ds = tf.keras.preprocessing.image_dataset_from_directory(
 )
 
 # Validating 20% of the images
-val_ds = tf.keras.preprocessing.image_dataset_from_directory(
+val_ds = tf.keras.utils.image_dataset_from_directory(
     data_dir,
     validation_split=0.2,
     subset="validation",
@@ -56,13 +48,15 @@ val_ds = tf.keras.preprocessing.image_dataset_from_directory(
 # print("Validation dataset batches")
 # _retrieveBatches_(val_ds)
 
+class_names = train_ds.class_names
+print(class_names)
 
-AUTOTUNE = tf.data.experimental.AUTOTUNE
+AUTOTUNE = tf.data.AUTOTUNE
 train_ds = train_ds.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
 val_ds = val_ds.cache().prefetch(buffer_size=AUTOTUNE)
 
 # Standardize values in range [0,1] by using Rescaling layer
-normalization_layer = layers.experimental.preprocessing.Rescaling(1. / 255)
+normalization_layer = layers.Rescaling(1. / 255)
 
 normalized_ds = train_ds.map(lambda x, y: (normalization_layer(x), y))
 # Tensors
@@ -79,7 +73,8 @@ print(np.min(first_image), np.max(first_image))
 # The machine learning model named in honor of James Hutton
 # TODO optimize the model
 Hutton = Sequential([
-    layers.experimental.preprocessing.Rescaling(1. / 255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
+    layers.Rescaling(
+        1. / 255, input_shape=(IMG_HEIGHT, IMG_WIDTH, 3)),
     layers.Conv2D(2, 3, padding='same', activation='relu'),
     layers.MaxPooling2D(),
     layers.Conv2D(4, 3, padding='same', activation='relu'),
@@ -119,24 +114,26 @@ history = Hutton.fit(
 )
 
 # Visualize training results
-_visualizeData_(history, epochs)
-plt.show()
+if is_visualize:
+    _visualizeData_(history, epochs)
+    plt.show()
 
 # Fixing Overfitting - Data Augmentation
 data_augmentation = keras.Sequential(
     [
-        layers.experimental.preprocessing.RandomFlip("horizontal",
-                                                     input_shape=(IMG_HEIGHT,
-                                                                  IMG_WIDTH,
-                                                                  3)),
-        layers.experimental.preprocessing.RandomRotation(0.1),
-        layers.experimental.preprocessing.RandomZoom(0.1),
+        layers.RandomFlip("horizontal",
+                          input_shape=(IMG_HEIGHT,
+                                       IMG_WIDTH,
+                                       3)),
+        layers.RandomRotation(0.1),
+        layers.RandomZoom(0.1),
     ]
 )
 
 # Recompile the model Hutton
 Hutton.compile(optimizer='adam',
-               loss=tf.keras.losses.SparseCategoricalCrossentropy(from_logits=True),
+               loss=tf.keras.losses.SparseCategoricalCrossentropy(
+                   from_logits=True),
                metrics=['accuracy'])
 
 Hutton.summary()
@@ -147,24 +144,30 @@ history = Hutton.fit(
     epochs=epochs
 )
 # Visualize training results
-_visualizeData_(history, epochs)
+if is_visualize:
+    _visualizeData_(history, epochs)
 
-test_dir = test_image_selected
+test_dir = "C:/repos/hutton/rock_samples/test/coal/1.jpg"
 
 # TODO use for loop for multiple image files
-test_img = keras.preprocessing.image.load_img(
+test_img = tf.keras.utils.load_img(
     test_dir, target_size=(IMG_HEIGHT, IMG_WIDTH)
 )
 
-img_array = keras.preprocessing.image.img_to_array(test_img)
+img_array = tf.keras.utils.img_to_array(test_img)
 # Create a batch
 img_array = tf.expand_dims(img_array, 0)
 
 predictions = Hutton.predict(img_array)
 score = tf.nn.softmax(predictions[0])
 
+print(
+    "This image most likely belongs to {} with a {:.2f} percent confidence."
+    .format(class_names[np.argmax(score)], 100 * np.max(score))
+)
+
 # Displaying the results
-class_names = train_ds.class_names
+
 results = _getResults_(class_names, score)
 print(results)
 
@@ -179,4 +182,3 @@ _logResults_(output_data)
 def hutton_classification_result():
     classification_result = _getResults_(class_names, score)
     return classification_result
-

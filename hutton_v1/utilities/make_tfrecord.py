@@ -1,14 +1,14 @@
 import tensorflow as tf
-from tensorflow.keras import layers
+from keras import layers
 import numpy as np
-import IPython.display as display
+from IPython.display import display
 
 # Data PARAMETERS
 BATCH_SIZE = 3
 IMG_HEIGHT = 180
 IMG_WIDTH = 180
 # Local directory of the data
-data_dir = 'D:/GitRepos/hutton/rock_samples/train'
+data_dir = 'D:/repos/hutton/rock_samples/train'
 
 # Training 80% of the images
 train_ds = tf.keras.preprocessing.image_dataset_from_directory(

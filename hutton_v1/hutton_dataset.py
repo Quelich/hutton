@@ -2,7 +2,7 @@
 import os
 import tensorflow as tf
 import numpy as np
-from tensorflow.keras import layers
+from keras import layers
 
 
 # Hutton class model
@@ -63,16 +63,16 @@ class Hutton_Dataset:
     def create_batches(self):
         # To tune the values dynamically in runtime
         AUTOTUNE = tf.data.experimental.AUTOTUNE
-        train_ds = self.TRAIN_DATASET.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE)
-        val_ds = self.VALIDATION_DATASET.cache().prefetch(buffer_size=AUTOTUNE)
+        train_ds = self.TRAIN_DATASET.cache().shuffle(1000).prefetch(buffer_size=AUTOTUNE) 
+        val_ds = self.VALIDATION_DATASET.cache().prefetch(buffer_size=AUTOTUNE) 
         # Updating the current values of both train and validation datasets
         self.TRAIN_DATASET = train_ds
         self.VALIDATION_DATASET = val_ds
         # Standardize values in range [0,1] by using Rescaling layer
-        normalization_layer = layers.experimental.preprocessing.Rescaling(1. / 255)
+        normalization_layer = tf.keras.layers.experimental.preprocessing.Rescaling(1. / 255)
         # Map dataset
         normalized_ds = self.TRAIN_DATASET.map(lambda x, y: (normalization_layer(x), y))
-        images_batch, labels_batch = next(iter(normalized_ds))
+        images_batch, labels_batch = next(iter(normalized_ds)) # type: ignore
         return images_batch, labels_batch
 
     # Gets the active data directory because
@@ -162,11 +162,11 @@ class Hutton_Dataset:
 # Prepare train and validation datasets to make Hutton model functional
 hutton_v1_dataset = Hutton_Dataset()
 # You can use your own data by just parameterizing the absolute directory
-data_dir = "D:/GitRepos/hutton/rock_samples/train/"
+data_dir = "C:/repos/hutton/rock_samples/train/"
 hutton_v1_dataset.set_DATA_DIR(data_dir)
 # You can also use external data sources that are zipped
-external_data_url = 'https://github.com/Quelich/hutton/blob/main/rock_samples/train.zip'
-hutton_v1_dataset.set_SOURCE_DATA_DIR('train.zip', external_data_url)
+#external_data_url = 'https://github.com/Quelich/hutton/blob/main/rock_samples/train.zip'
+#hutton_v1_dataset.set_SOURCE_DATA_DIR('train.zip', external_data_url)
 source_data_dir = hutton_v1_dataset.get_SOURCE_DATA_DIR()
 # Set the active data source directory
 active_data_dir = data_dir
